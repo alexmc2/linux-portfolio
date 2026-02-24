@@ -136,7 +136,8 @@ export function Dock({
 
   return (
     <aside className="pointer-events-none fixed inset-y-0 left-0 z-1100 flex w-16">
-      <div className="pointer-events-auto flex h-full w-full flex-col items-center gap-1.5 border-r border-white/12 bg-black/80 pb-2 pt-11 shadow-2xl backdrop-blur-md">
+      {/* Keep launchers below the fixed 40px top bar on desktop. */}
+      <div className="pointer-events-auto flex h-full w-full flex-col items-center gap-1.5 border-r border-(--border-color) bg-(--dock-color) pb-2 pt-11 shadow-2xl backdrop-blur-md">
         {desktopDockItems.map((item) => {
           let isOpen = false;
           let isActive = false;
@@ -177,6 +178,7 @@ export function Dock({
                 width={36}
                 height={36}
                 className="h-9 w-9 select-none object-contain"
+                loading="eager"
                 draggable={false}
               />
               {isOpen ? (
