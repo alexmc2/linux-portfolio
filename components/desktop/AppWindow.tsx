@@ -7,6 +7,7 @@ import { Rnd } from 'react-rnd';
 import { AppId, DesktopWindow } from '@/lib/types/desktop';
 
 interface AppWindowProps {
+  isMobile: boolean;
   windowState: DesktopWindow;
   active: boolean;
   children: ReactNode;
@@ -19,6 +20,7 @@ interface AppWindowProps {
 }
 
 export function AppWindow({
+  isMobile,
   windowState,
   active,
   children,
@@ -29,16 +31,20 @@ export function AppWindow({
   onPositionChange,
   onSizeChange,
 }: AppWindowProps) {
+  const controlButtonClass = isMobile
+    ? 'inline-flex h-8 w-8 items-center justify-center rounded bg-black/20 text-(--text-color) transition hover:bg-white/15'
+    : 'inline-flex h-6 w-6 items-center justify-center rounded bg-black/20 text-(--text-color) transition hover:bg-white/15';
+
   const windowContent = (
     <div
-      className="flex h-full flex-col overflow-hidden rounded-xl border border-(--border-color) bg-(--surface-color) shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-sm"
-      onMouseDown={() => onFocus(windowState.id)}
+      className={`flex h-full flex-col overflow-hidden border border-(--border-color) bg-(--surface-color) shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-sm ${isMobile ? 'rounded-lg' : 'rounded-xl'}`}
+      onPointerDown={() => onFocus(windowState.id)}
     >
       <div
-        className="window-drag-handle flex h-10 items-center justify-between border-b border-(--border-color) bg-black/20 px-3"
-        style={{ cursor: windowState.maximized ? 'default' : 'move' }}
+        className={`${isMobile ? '' : 'window-drag-handle '}flex h-10 items-center justify-between border-b border-(--border-color) bg-black/20 px-3`}
+        style={{ cursor: windowState.maximized || isMobile ? 'default' : 'move' }}
       >
-        <div className="truncate pr-3 text-xs font-semibold tracking-wide text-(--text-color) sm:text-sm">
+        <div className={`truncate pr-3 font-semibold tracking-wide text-(--text-color) ${isMobile ? 'text-sm' : 'text-xs sm:text-sm'}`}>
           {windowState.title}
         </div>
 
@@ -47,29 +53,29 @@ export function AppWindow({
             onClick={() => onMinimize(windowState.id)}
             type="button"
             title="Minimize"
-            className="inline-flex h-6 w-6 items-center justify-center rounded bg-black/20 text-(--text-color) transition hover:bg-white/15"
+            className={controlButtonClass}
           >
-            <Minus className="h-3.5 w-3.5" />
+            <Minus className={isMobile ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
           </button>
           <button
             onClick={() => onMaximize(windowState.id)}
             type="button"
             title={windowState.maximized ? 'Restore' : 'Maximize'}
-            className="inline-flex h-6 w-6 items-center justify-center rounded bg-black/20 text-(--text-color) transition hover:bg-white/15"
+            className={controlButtonClass}
           >
             {windowState.maximized ? (
-              <Square className="h-3.5 w-3.5" />
+              <Square className={isMobile ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
             ) : (
-              <Maximize2 className="h-3.5 w-3.5" />
+              <Maximize2 className={isMobile ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
             )}
           </button>
           <button
             onClick={() => onClose(windowState.id)}
             type="button"
             title="Close"
-            className="inline-flex h-6 w-6 items-center justify-center rounded bg-(--danger-color)/80 text-black transition hover:bg-(--danger-color)"
+            className={`${isMobile ? 'inline-flex h-8 w-8' : 'inline-flex h-6 w-6'} items-center justify-center rounded bg-(--danger-color)/80 text-black transition hover:bg-(--danger-color)`}
           >
-            <X className="h-3.5 w-3.5" />
+            <X className={isMobile ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
           </button>
         </div>
       </div>
@@ -77,15 +83,15 @@ export function AppWindow({
     </div>
   );
 
-  if (windowState.maximized) {
+  if (windowState.maximized || isMobile) {
     return (
       <div
         className="absolute inset-0"
         style={{
           zIndex: windowState.z,
-          padding: '6px',
+          padding: isMobile ? '0px' : '6px',
           outline: active ? '1px solid var(--accent-color)' : 'none',
-          outlineOffset: '-2px',
+          outlineOffset: isMobile ? '0px' : '-2px',
         }}
       >
         {windowContent}

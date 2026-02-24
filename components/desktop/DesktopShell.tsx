@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
 
 import { AboutApp } from '@/components/apps/AboutApp';
 import { BlogApp } from '@/components/apps/BlogApp';
@@ -61,7 +60,6 @@ export function DesktopShell() {
   const setPanicProgress = useDesktopStore((state) => state.setPanicProgress);
 
   const [isMobile, setIsMobile] = useState(false);
-  const [forceDesktop, setForceDesktop] = useState(false);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [startupProgress, setStartupProgress] = useState(0);
   const [startupComplete, setStartupComplete] = useState(false);
@@ -189,56 +187,29 @@ export function DesktopShell() {
     return <BootOverlay progress={startupScreenProgress} mode="startup" />;
   }
 
-  if (isMobile && !forceDesktop) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-900 p-6 text-slate-100">
-        <div className="max-w-md space-y-4 rounded-2xl border border-white/20 bg-black/30 p-6">
-          <h1 className="text-2xl font-semibold">Mobile detected</h1>
-          <p className="text-sm text-slate-300">
-            The Linux desktop UI is optimized for larger screens. Open the
-            classic portfolio layout on mobile.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/classic"
-              className="rounded bg-white px-3 py-2 text-sm font-semibold text-black"
-            >
-              Open Classic View
-            </Link>
-            <button
-              type="button"
-              onClick={() => setForceDesktop(true)}
-              className="rounded border border-white/30 px-3 py-2 text-sm"
-            >
-              Continue Desktop
-            </button>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <div
       className={`relative min-h-screen overflow-hidden text-(--text-color) ${theme.effects.retroCrt ? 'retro-crt' : ''}`}
       style={desktopStyle}
       onMouseMove={(event) => {
-        if (!theme.effects.cursorGlow) {
+        if (!theme.effects.cursorGlow || isMobile) {
           return;
         }
 
         setCursor({ x: event.clientX, y: event.clientY });
       }}
     >
-      <TopBar onToggleOverview={() => setOverviewOpen(!overviewOpen)} />
+      <TopBar isMobile={isMobile} onToggleOverview={() => setOverviewOpen(!overviewOpen)} />
       <Dock
+        isMobile={isMobile}
         windows={windows}
         activeWindowId={activeWindowId}
         onAppClick={toggleFromDock}
       />
 
-      <main className="absolute inset-0 pb-3 pl-18.5 pr-3 pt-10">
+      <main className={isMobile ? 'absolute inset-0 px-2 pb-24 pt-11' : 'absolute inset-0 pb-3 pl-18.5 pr-3 pt-10'}>
         <WindowManager
+          isMobile={isMobile}
           windows={windows}
           activeWindowId={activeWindowId}
           renderApp={renderApp}
@@ -264,7 +235,7 @@ export function DesktopShell() {
       {theme.effects.scanlines ? (
         <div className="desktop-scanlines pointer-events-none fixed inset-0 z-11" />
       ) : null}
-      {theme.effects.cursorGlow ? (
+      {theme.effects.cursorGlow && !isMobile ? (
         <div
           className="pointer-events-none fixed z-12 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
