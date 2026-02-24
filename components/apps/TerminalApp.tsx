@@ -34,14 +34,14 @@ const neofetchLines = [
   '    \\___)=(___/    Uptime: right now',
 ];
 
-const dangerousRootDeletePattern =
-  /^(?:sudo\s+)?rm\s+-(?:[a-z]*r[a-z]*f[a-z]*|[a-z]*f[a-z]*r[a-z]*)\s+\/\*?(?:\s+--no-preserve-root)?$/;
+const dangerousSudoRootDeletePattern =
+  /^sudo\s+rm\s+-(?:[a-z]*r[a-z]*f[a-z]*|[a-z]*f[a-z]*r[a-z]*)\s+(?:(?:--no-preserve-root\s+)?\/(?:\*+)?(?:\s+--no-preserve-root)?)$/;
 
 const fakeDeleteSequence: TimedTerminalLine[] = [
   {
     at: 220,
     type: 'output',
-    text: 'Heads-up: `rm -rf /*` is not a deployment strategy. Running anyway...',
+    text: 'Heads-up: `sudo rm -rf / --no-preserve-root` is not a deployment strategy. Running anyway...',
   },
   {
     at: 520,
@@ -104,7 +104,7 @@ export function TerminalApp() {
 
     const normalized = command.toLowerCase();
 
-    if (dangerousRootDeletePattern.test(normalized)) {
+    if (dangerousSudoRootDeletePattern.test(normalized)) {
       setNukeInProgress(true);
 
       fakeDeleteSequence.forEach((line) => {
@@ -140,7 +140,7 @@ export function TerminalApp() {
         );
         appendLine(
           'output',
-          'Warning: `rm -rf /*` is destructive and can render a Linux system unbootable.',
+          'Warning: `sudo rm -rf / --no-preserve-root` is destructive and can render a Linux system unbootable.',
         );
         return;
       }

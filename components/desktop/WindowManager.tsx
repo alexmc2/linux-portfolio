@@ -7,6 +7,7 @@ import { AppId, DesktopWindow } from '@/lib/types/desktop';
 import { AppWindow } from './AppWindow';
 
 interface WindowManagerProps {
+  isMobile: boolean;
   windows: Record<AppId, DesktopWindow>;
   activeWindowId: AppId | null;
   renderApp: (id: AppId) => ReactNode;
@@ -19,6 +20,7 @@ interface WindowManagerProps {
 }
 
 export function WindowManager({
+  isMobile,
   windows,
   activeWindowId,
   renderApp,
@@ -38,6 +40,7 @@ export function WindowManager({
         .map((windowState) => (
           <AppWindow
             key={windowState.id}
+            isMobile={isMobile}
             windowState={windowState}
             active={activeWindowId === windowState.id}
             onFocus={onFocus}
