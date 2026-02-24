@@ -66,6 +66,15 @@ export const appDefinitions: AppDefinition[] = [
     defaultPosition: { x: 230, y: 160 },
   },
   {
+    id: 'code',
+    title: 'Visual Studio Code',
+    dockLabel: 'Code',
+    command: 'code',
+    color: '#4ca5ff',
+    defaultSize: { width: 960, height: 620 },
+    defaultPosition: { x: 140, y: 96 },
+  },
+  {
     id: 'files',
     title: 'Files',
     dockLabel: 'Files',
@@ -91,6 +100,15 @@ export const appDefinitions: AppDefinition[] = [
     color: '#76c0a3',
     defaultSize: { width: 760, height: 560 },
     defaultPosition: { x: 200, y: 120 },
+  },
+  {
+    id: 'notes',
+    title: 'Notepad',
+    dockLabel: 'Notes',
+    command: 'notes',
+    color: '#f2d37a',
+    defaultSize: { width: 620, height: 500 },
+    defaultPosition: { x: 220, y: 128 },
   },
 ];
 

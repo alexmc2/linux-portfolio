@@ -7,11 +7,13 @@ import { BlogApp } from '@/components/apps/BlogApp';
 import { ContactApp } from '@/components/apps/ContactApp';
 import { ExperienceApp } from '@/components/apps/ExperienceApp';
 import { FilesApp } from '@/components/apps/FilesApp';
+import { NotesApp } from '@/components/apps/NotesApp';
 import { ProjectsApp } from '@/components/apps/ProjectsApp';
 import { SettingsApp } from '@/components/apps/SettingsApp';
 import { SkillsApp } from '@/components/apps/SkillsApp';
 import { TerminalApp } from '@/components/apps/TerminalApp';
 import { BootOverlay } from '@/components/desktop/BootOverlay';
+import { DesktopShortcuts } from '@/components/desktop/DesktopShortcuts';
 import { Dock } from '@/components/desktop/Dock';
 import { KernelPanicOverlay } from '@/components/desktop/KernelPanicOverlay';
 import { Overview } from '@/components/desktop/Overview';
@@ -138,7 +140,10 @@ export function DesktopShell() {
 
     const tick = (now: number) => {
       const elapsed = now - start;
-      const progress = Math.min(100, (elapsed / PANIC_RELOAD_DURATION_MS) * 100);
+      const progress = Math.min(
+        100,
+        (elapsed / PANIC_RELOAD_DURATION_MS) * 100,
+      );
 
       setPanicProgress(progress);
 
@@ -172,12 +177,16 @@ export function DesktopShell() {
         return <ContactApp />;
       case 'blog':
         return <BlogApp />;
+      case 'code':
+        return <FilesApp />;
       case 'files':
         return <FilesApp />;
       case 'terminal':
         return <TerminalApp />;
       case 'settings':
         return <SettingsApp />;
+      case 'notes':
+        return <NotesApp />;
       default:
         return null;
     }
@@ -199,15 +208,35 @@ export function DesktopShell() {
         setCursor({ x: event.clientX, y: event.clientY });
       }}
     >
-      <TopBar isMobile={isMobile} onToggleOverview={() => setOverviewOpen(!overviewOpen)} />
+      <TopBar
+        isMobile={isMobile}
+        onToggleOverview={() => setOverviewOpen(!overviewOpen)}
+      />
       <Dock
         isMobile={isMobile}
         windows={windows}
         activeWindowId={activeWindowId}
+        overviewOpen={overviewOpen}
         onAppClick={toggleFromDock}
+        onToggleOverview={() => setOverviewOpen(!overviewOpen)}
+        onOpenExternalLink={(url) => {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        }}
       />
 
-      <main className={isMobile ? 'absolute inset-0 px-2 pb-24 pt-11' : 'absolute inset-0 pb-3 pl-18.5 pr-3 pt-10'}>
+      <main
+        className={
+          isMobile
+            ? 'absolute inset-0 px-2 pb-24 pt-11'
+            : 'absolute inset-0 pb-3 pl-16 pr-3 pt-10'
+        }
+      >
+        <DesktopShortcuts
+          isMobile={isMobile}
+          windows={windows}
+          activeWindowId={activeWindowId}
+          onOpenApp={openApp}
+        />
         <WindowManager
           isMobile={isMobile}
           windows={windows}
@@ -248,7 +277,9 @@ export function DesktopShell() {
         />
       ) : null}
 
-      {panicMode === 'panic' ? <KernelPanicOverlay progress={panicProgress} /> : null}
+      {panicMode === 'panic' ? (
+        <KernelPanicOverlay progress={panicProgress} />
+      ) : null}
     </div>
   );
 }

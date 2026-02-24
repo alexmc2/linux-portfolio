@@ -86,7 +86,7 @@ export function AppWindow({
   if (windowState.maximized || isMobile) {
     return (
       <div
-        className="absolute inset-0"
+        className="pointer-events-auto absolute inset-0"
         style={{
           zIndex: windowState.z,
           padding: isMobile ? '0px' : '6px',
@@ -101,6 +101,7 @@ export function AppWindow({
 
   return (
     <Rnd
+      className="pointer-events-auto"
       size={{ width: windowState.width, height: windowState.height }}
       position={{ x: windowState.x, y: windowState.y }}
       minWidth={460}
