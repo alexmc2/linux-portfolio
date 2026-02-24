@@ -4,7 +4,7 @@ Portfolio site as a Linux-style desktop experience.
 
 Visitors land on a simulated Ubuntu desktop where they can open app windows (About, Projects, Skills, Experience, Contact, Files, Terminal, Settings), move them around, and explore your work like an Linux operating system.
 
-## What It Does (In Human Terms)
+## What It Does
 
 - Shows a boot screen before loading the desktop UI.
 - Lets visitors open and manage multiple portfolio windows from a dock.
@@ -12,12 +12,10 @@ Visitors land on a simulated Ubuntu desktop where they can open app windows (Abo
 - Provides a terminal where users can run playful commands like `help`, `neofetch`, `open <app>`, and `theme <preset>`.
 - Includes a settings panel to customize themes, background, accent color, and visual effects.
 - Saves layout and theme choices in local storage so the desktop feels persistent.
-- Detects mobile screens and offers a simpler classic page by default.
 
 ## Routes
 
 - `/` - interactive Linux desktop portfolio
-- `/classic` - traditional scroll-style portfolio layout
 - `/blog` - redirects to external blog
 - `/gallery` - redirects to external gallery
 
