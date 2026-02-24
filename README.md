@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Linux Portfolio (AlexOS)
 
-## Getting Started
+Portfolio site as a Linux-style desktop experience.
 
-First, run the development server:
+Visitors land on a simulated Ubuntu desktop where they can open app windows (About, Projects, Skills, Experience, Contact, Files, Terminal, Settings), move them around, and explore your work like an Linux operating system.
+
+## What It Does (In Human Terms)
+
+- Shows a boot screen before loading the desktop UI.
+- Lets visitors open and manage multiple portfolio windows from a dock.
+- Includes an app overview/search panel (like Activities on Linux).
+- Provides a terminal where users can run playful commands like `help`, `neofetch`, `open <app>`, and `theme <preset>`.
+- Includes a settings panel to customize themes, background, accent color, and visual effects.
+- Saves layout and theme choices in local storage so the desktop feels persistent.
+- Detects mobile screens and offers a simpler classic page by default.
+
+## Routes
+
+- `/` - interactive Linux desktop portfolio
+- `/classic` - traditional scroll-style portfolio layout
+- `/blog` - redirects to external blog
+- `/gallery` - redirects to external gallery
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- React 19 + TypeScript
+- Tailwind CSS v4
+- Zustand for desktop state + persistence
+- react-rnd for draggable/resizable windows
+
+## Run Locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` - start dev server
+- `npm run build` - production build
+- `npm run start` - run production server
+- `npm run lint` - run ESLint

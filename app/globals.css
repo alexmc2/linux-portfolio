@@ -1,26 +1,143 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --shell-color: #2b2343;
+  --surface-color: rgba(31, 28, 43, 0.86);
+  --surface-raised: rgba(51, 44, 66, 0.92);
+  --border-color: rgba(255, 255, 255, 0.16);
+  --text-color: #f4ecff;
+  --muted-color: #ccb9de;
+  --topbar-color: rgba(24, 22, 33, 0.94);
+  --topbar-text: #f0ecf8;
+  --dock-color: rgba(22, 20, 30, 0.7);
+  --accent-color: #eb6536;
+  --success-color: #7ec16f;
+  --danger-color: #f6607a;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  min-height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), 'Space Grotesk', 'Segoe UI', sans-serif;
+  color: var(--text-color);
+  background: #0f1015;
+}
+
+a {
+  color: inherit;
+}
+
+.desktop-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.28;
+}
+
+.desktop-scanlines {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  background-size: 100% 4px;
+  opacity: 0.18;
+}
+
+.retro-crt {
+  filter: contrast(1.05) saturate(1.08);
+}
+
+.retro-crt::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 14;
+  background: radial-gradient(circle at center, transparent 55%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.window-drag-handle {
+  user-select: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.boot-screen {
+  background:
+    radial-gradient(circle at 16% 12%, rgba(61, 126, 233, 0.045), transparent 36%),
+    radial-gradient(circle at 87% 82%, rgba(19, 46, 94, 0.06), transparent 40%),
+    linear-gradient(145deg, #000102 0%, #010206 48%, #000102 100%);
+}
+
+.boot-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(147, 192, 255, 0.08) 0,
+    rgba(147, 192, 255, 0.02) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  background-size: 100% 4px;
+  opacity: 0.12;
+  animation: boot-scanline 8s linear infinite;
+}
+
+.boot-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 2px solid rgba(99, 153, 255, 0.12);
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.94);
+  opacity: 0.46;
+}
+
+.boot-hud {
+  position: relative;
+}
+
+.boot-hud::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border: 1px solid rgba(140, 188, 255, 0.24);
+  border-radius: inherit;
+}
+
+@keyframes boot-scanline {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-screen::before {
+    animation: none;
+  }
 }
