@@ -5,9 +5,11 @@ export type AppId =
   | 'experience'
   | 'contact'
   | 'blog'
+  | 'code'
   | 'files'
   | 'terminal'
-  | 'settings';
+  | 'settings'
+  | 'notes';
 
 export type BackgroundMode = 'gradient' | 'solid' | 'wallpaper';
 

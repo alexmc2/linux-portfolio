@@ -97,7 +97,9 @@ export const useDesktopStore = create<DesktopState>()(
       openApp: (id) =>
         set((state) => {
           const target = state.windows[id];
-          if (!target) {
+          const fallbackWindow = target ?? createInitialWindows()[id];
+
+          if (!fallbackWindow) {
             return state;
           }
 
@@ -106,7 +108,7 @@ export const useDesktopStore = create<DesktopState>()(
             windows: {
               ...state.windows,
               [id]: {
-                ...target,
+                ...fallbackWindow,
                 open: true,
                 minimized: false,
               },
@@ -171,6 +173,11 @@ export const useDesktopStore = create<DesktopState>()(
       toggleFromDock: (id) => {
         const state = get();
         const target = state.windows[id];
+
+        if (!target) {
+          get().openApp(id);
+          return;
+        }
 
         if (!target.open) {
           get().openApp(id);
@@ -341,8 +348,35 @@ export const useDesktopStore = create<DesktopState>()(
     }),
     {
       name: 'alex-linux-desktop-state',
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => localStorage),
+      migrate: (persistedState) => {
+        const base = defaultPersistedState();
+        const incoming = (persistedState ?? {}) as Partial<PersistedDesktopState>;
+        const incomingTheme = incoming.theme;
+
+        return {
+          ...base,
+          ...incoming,
+          activeWindowId:
+            incoming.activeWindowId && incoming.windows?.[incoming.activeWindowId]
+              ? incoming.activeWindowId
+              : null,
+          windows: {
+            ...base.windows,
+            ...(incoming.windows ?? {}),
+          },
+          topZ: Math.max(incoming.topZ ?? 0, appDefinitions.length + 1),
+          theme: {
+            ...base.theme,
+            ...(incomingTheme ?? {}),
+            effects: {
+              ...base.theme.effects,
+              ...(incomingTheme?.effects ?? {}),
+            },
+          },
+        };
+      },
       partialize: (state) => ({
         windows: state.windows,
         topZ: state.topZ,

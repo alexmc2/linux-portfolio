@@ -6,7 +6,9 @@ import {
   Gauge,
   Mail,
   Newspaper,
+  NotepadText,
   Settings,
+  SquareCode,
   Terminal,
   User,
   Wrench,
@@ -27,9 +29,11 @@ const icons = {
   experience: Gauge,
   contact: Mail,
   blog: Newspaper,
+  code: SquareCode,
   files: Folder,
   terminal: Terminal,
   settings: Settings,
+  notes: NotepadText,
 } as const;
 
 export function AppIcon({ appId, className }: AppIconProps) {

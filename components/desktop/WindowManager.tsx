@@ -32,7 +32,7 @@ export function WindowManager({
   onSizeChange,
 }: WindowManagerProps) {
   return (
-    <section className="relative h-full w-full overflow-hidden">
+    <section className="pointer-events-none relative h-full w-full overflow-hidden">
       {(Object.keys(windows) as AppId[])
         .map((id) => windows[id])
         .filter((windowState) => windowState.open && !windowState.minimized)

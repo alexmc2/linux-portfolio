@@ -61,7 +61,7 @@ export function Overview({ open, windows, onClose, onOpenApp }: OverviewProps) {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {filtered.map((app) => {
             const state = windows[app.id];
-            const running = state.open;
+            const running = state?.open ?? false;
 
             return (
               <button
