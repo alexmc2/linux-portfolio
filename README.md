@@ -10,6 +10,7 @@ Visitors land on a simulated Ubuntu desktop where they can open app windows (Abo
 - Lets visitors open and manage multiple portfolio windows from a dock.
 - Includes an app overview/search panel (like Activities on Linux).
 - Provides a terminal where users can run playful commands like `help`, `neofetch`, `open <app>`, and `theme <preset>`.
+- Try typing `sudo rm -rf /` in Terminal for a fun joke.
 - Includes a settings panel to customize themes, background, accent color, and visual effects.
 - Saves layout and theme choices in local storage so the desktop feels persistent.
 

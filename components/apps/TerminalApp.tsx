@@ -41,7 +41,7 @@ const fakeDeleteSequence: TimedTerminalLine[] = [
   {
     at: 220,
     type: 'output',
-    text: 'Heads-up: `sudo rm -rf / --no-preserve-root` is not a deployment strategy. Running anyway...',
+    text: 'Heads-up: `sudo rm -rf /` is not a deployment strategy. Running anyway...',
   },
   {
     at: 520,
@@ -74,7 +74,17 @@ export function TerminalApp() {
   const timeoutIdsRef = useRef<number[]>([]);
 
   const supportedCommands = useMemo(
-    () => ['help', 'clear', 'ls', 'pwd', 'whoami', 'neofetch', 'open <app>', 'theme <preset>'],
+    () => [
+      'help',
+      'clear',
+      'ls',
+      'pwd',
+      'whoami',
+      'neofetch',
+      'open <app>',
+      'theme <preset>',
+      'sudo rm -rf /',
+    ],
     [],
   );
 
@@ -140,7 +150,7 @@ export function TerminalApp() {
         );
         appendLine(
           'output',
-          'Warning: `sudo rm -rf / --no-preserve-root` is destructive and can render a Linux system unbootable.',
+          'Warning: `sudo rm -rf /` is destructive and can render a Linux system unbootable.',
         );
         return;
       }
